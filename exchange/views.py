@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 from django.contrib.auth.views import LoginView, LogoutView
-from .models import Skill, User, UserSkill, Session, Message, Review, VideoPost
+from .models import Skill, User, UserSkill, Session, Message, Review, VideoPost, Report
 from .forms import CustomUserCreationForm, UserSkillForm, VideoPostForm
 import json
 
