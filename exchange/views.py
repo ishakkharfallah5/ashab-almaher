@@ -195,9 +195,11 @@ def upload_video(request):
             video.save()
             
             # Credit user (+1 for sharing content)
-            user = User.objects.select_for_update().get(id=request.user.id)
-            user.points += 1
-            user.save()
+            from django.db import transaction
+            with transaction.atomic():
+                user = User.objects.select_for_update().get(id=request.user.id)
+                user.points += 1
+                user.save()
             
             return redirect('exchange:video_feed')
     else:
