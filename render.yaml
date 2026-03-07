@@ -1,15 +1,15 @@
 services:
   - type: web
-    name: young-geniuses
+    name: ashab-almaher
     env: python
-    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
-    startCommand: gunicorn config.wsgi
+    buildCommand: pip install -r requirements.txt
+    startCommand: python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn config.wsgi --bind 0.0.0.0:$PORT
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.12.2
       - key: DEBUG
         value: "False"
       - key: SECRET_KEY
         generateValue: true
       - key: ALLOWED_HOSTS
-        value: .onrender.com
+        value: "*"
+      - key: DATABASE_URL
+        value: sqlite:///db.sqlite3
