@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-i-k+vhfse2_x2szk49n^^77!h5siv+9_f+)o6c&-*8)c2m=n0d')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = True
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
 CSRF_TRUSTED_ORIGINS = ['https://ashab-almaher.onrender.com']
