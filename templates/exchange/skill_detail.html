@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ skill.name }} - تبادل المهارات{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 3rem;">
+    <a href="{% url 'exchange:skill_list' %}" style="color: var(--text-muted); text-decoration: none;">← العودة إلى جميع
+        المهارات</a>
+    <h1 style="font-size: 3rem; margin-top: 1rem;">{{ skill.name }}</h1>
+    <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px;">{{ skill.description }}</p>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+    <!-- Teachers -->
+    <div>
+        <h2 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span style="color: var(--primary);">●</span> المعلمون
+        </h2>
+        {% for item in teachers %}
+        <div class="glass"
+            style="padding: 1.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h3 style="margin: 0;">{{ item.user.username }}</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">المستوى: <span
+                        style="color: var(--text-main); font-weight: 600;">{{ item.get_level_display }}</span></p>
+            </div>
+            {% if user.is_authenticated and item.user != user %}
+            <a href="{% url 'exchange:request_session' item.user.id skill.id %}" class="btn btn-primary">حجز جلسة</a>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p style="color: var(--text-muted);">لا أحد يعلم هذه المهارة بعد.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Learners -->
+    <div>
+        <h2 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span style="color: var(--secondary);">●</span> المتعلمون
+        </h2>
+        {% for item in learners %}
+        <div class="glass"
+            style="padding: 1.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h3 style="margin: 0;">{{ item.user.username }}</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">المستوى: <span
+                        style="color: var(--text-main); font-weight: 600;">{{ item.get_level_display }}</span></p>
+            </div>
+            {% if user.is_authenticated and item.user != user %}
+            <a href="#" class="btn glass" style="border-color: var(--secondary); color: var(--secondary);">تقديم
+                المساعدة</a>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p style="color: var(--text-muted);">لا أحد يتطلع لتعلم هذه المهارة بعد.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

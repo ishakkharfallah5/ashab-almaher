@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}إضافة مهارة - تبادل المهارات{% endblock %}
+
+{% block content %}
+<div class="glass" style="max-width: 500px; margin: 4rem auto; padding: 2.5rem;">
+    <h2 style="margin-bottom: 2rem; text-align: center;">إضافة <span style="color: var(--primary);">مهارة</span> جديدة
+    </h2>
+    <form method="post">
+        {% csrf_token %}
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--text-muted);">المهارة</label>
+            {{ form.skill }}
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--text-muted);">المستوى</label>
+            {{ form.level }}
+        </div>
+        <div style="margin-bottom: 2rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--text-muted);">ماذا تريد أن تفعل بهذه
+                المهارة؟</label>
+            {{ form.is_teaching }}
+        </div>
+        <div style="display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary" style="flex: 1;">حفظ المهارة</button>
+            <a href="{% url 'exchange:profile' %}" class="btn glass" style="flex: 1; text-align: center;">إلغاء</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

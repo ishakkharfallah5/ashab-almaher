@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load exchange_tags %}
+
+{% block title %}جلساتي - تبادل المهارات{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+    <!-- Incoming Requests -->
+    <div>
+        <h2 style="margin-bottom: 2rem;">طلبات واردة</h2>
+        {% for session in incoming %}
+        <div class="glass" style="padding: 1.5rem; margin-bottom: 1rem;">
+            <h3 style="margin: 0 0 0.5rem;">{{ session.learner.username }} يريد التعلم</h3>
+            <p style="color: var(--primary); font-weight: 600; margin-bottom: 1rem;">{{ session.skill.name }}</p>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">الموعد: {{
+                session.date|date:"F j, Y, g:i a" }}</p>
+
+            <div style="display: flex; gap: 1rem;">
+                <a href="{% url 'exchange:approve_session' session.id %}" class="btn btn-primary"
+                    style="padding: 0.5rem 1rem; font-size: 0.8rem;">موافقة</a>
+                <a href="{% url 'exchange:reject_session' session.id %}" class="btn glass"
+                    style="padding: 0.5rem 1rem; font-size: 0.8rem; color: var(--warning);">رفض</a>
+                <a href="{% url 'exchange:chat' session.learner.id %}" class="btn glass"
+                    style="padding: 0.5rem 1rem; font-size: 0.8rem;">دردشة</a>
+            </div>
+        </div>
+        {% empty %}
+        <p style="color: var(--text-muted);">لا توجد طلبات جديدة.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Outgoing / history -->
+    <div>
+        <h2 style="margin-bottom: 2rem;">رحلتي التعليمية</h2>
+        {% for session in outgoing %}
+        <div class="glass"
+            style="padding: 1.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h3 style="margin: 0 0 0.25rem;">{{ session.skill.name }}</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">مع {{ session.teacher.username }}</p>
+            </div>
+            {% if session.status == 'requested' %}
+            <a href="{% url 'exchange:cancel_session' session.id %}" class="btn glass"
+                style="padding: 0.5rem 1rem; font-size: 0.8rem; color: var(--warning);">إلغاء</a>
+            {% elif session.status == 'approved' %}
+            <div style="display: flex; gap: 0.5rem;">
+                <a href="https://meet.google.com/new" target="_blank" class="btn btn-primary"
+                    style="padding: 0.5rem 1rem; font-size: 0.8rem;">الانضمام للجلسة</a>
+                <a href="{% url 'exchange:complete_session' session.id %}" class="btn btn-secondary"
+                    style="background: var(--success); padding: 0.5rem 1rem; font-size: 0.8rem; color: white;">تم
+                    الإنجاز</a>
+            </div>
+            {% elif session.status == 'completed' %}
+            {% if not session.review %}
+            <a href="{% url 'exchange:submit_review' session.id %}" class="btn glass"
+                style="padding: 0.5rem 1rem; font-size: 0.8rem;">ترك تقييم</a>
+            {% else %}
+            <span style="font-size: 0.8rem; color: var(--success);">تم التقييم ✓</span>
+            {% endif %}
+            {% endif %}
+        </div>
+        {% empty %}
+        <p style="color: var(--text-muted);">لم تطلب أي جلسات بعد.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

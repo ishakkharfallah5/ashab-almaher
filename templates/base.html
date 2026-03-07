@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}الشاب الماهر{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <div class="container">
+        <a href="{% url 'exchange:home' %}" class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="الشاب الماهر"
+                style="height: 40px; vertical-align: middle; margin-left: 10px;">
+            <span>الشاب الماهر</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="{% url 'exchange:skill_list' %}">استكشف المهارات</a></li>
+            <li><a href="{% url 'exchange:video_feed' %}">قصص الفيديو</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'exchange:session_list' %}">جلساتي</a></li>
+            <li><a href="{% url 'exchange:message_list' %}">الرسائل</a></li>
+            <li><a href="{% url 'exchange:leaderboard' %}">المتصدرين</a></li>
+            <li><a href="{% url 'exchange:profile' %}">ملفي الشخصي ({{ user.points }} نقطة)</a></li>
+            <li>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary"
+                        style="background: none; border: none; color: inherit; font: inherit; cursor: pointer;">تسجيل
+                        الخروج</button>
+                </form>
+            </li>
+            {% else %}
+            <li><a href="{% url 'login' %}">تسجيل الدخول</a></li>
+            <li><a href="{% url 'exchange:signup' %}" class="btn btn-primary">انضم إلينا</a></li>
+            {% endif %}
+        </ul>
+        </nav>
+
+        <main>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="glass" style="padding: 1rem; margin-bottom: 2rem; border-color: var(--primary);">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <footer
+            style="margin-top: 8rem; padding: 4rem 0; text-align: center; color: var(--text-muted); border-top: 1px solid var(--glass-border);">
+            <p>&copy; 2026 الشاب الماهر. تمكين الشباب من خلال التعاون.</p>
+            <p style="margin-top: 1rem;"><a href="{% url 'exchange:rules' %}"
+                    style="color: var(--secondary); text-decoration: none; font-weight: 600;">قواعد المجتمع
+                    والخصوصية</a></p>
+        </footer>
+    </div>
+    <script>
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = 'إخفاء';
+            } else {
+                input.type = 'password';
+                btn.textContent = 'عرض';
+            }
+        }
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

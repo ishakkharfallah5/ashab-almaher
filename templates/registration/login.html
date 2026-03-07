@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}تسجيل الدخول - تبادل المهارات{% endblock %}
+
+{% block content %}
+<div class="glass" style="max-width: 400px; margin: 4rem auto; padding: 2.5rem;">
+    <h2 style="margin-bottom: 2rem; text-align: center;">مرحباً بعودتك</h2>
+
+    {% if remembered_user %}
+    <div class="glass"
+        style="padding: 1.5rem; margin-bottom: 2rem; border: 1px solid var(--primary); text-align: center;">
+        <p style="margin-bottom: 1rem; color: var(--text-muted);">هل أنت {{ remembered_user.username }}؟</p>
+        <div
+            style="width: 60px; height: 60px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; color: white; margin: 0 auto 1rem;">
+            {{ remembered_user.username|slice:":1"|upper }}
+        </div>
+        <a href="{% url 'quick_login' %}" class="btn btn-primary" style="width: 100%;">تسجيل دخول سريع</a>
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">أو استخدم النموذج أدناه لحساب آخر</p>
+    </div>
+    <hr style="border: 0; border-top: 1px solid var(--glass-border); margin-bottom: 2rem;">
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--text-muted);">اسم المستخدم</label>
+            <input type="text" name="username" class="glass"
+                style="width: 100%; padding: 0.75rem; color: white; border: 1px solid var(--glass-border); background: var(--glass-bg);">
+        </div>
+        <div style="margin-bottom: 2rem; position: relative;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--text-muted);">كلمة المرور</label>
+            <input type="password" id="password" name="password" class="glass"
+                style="width: 100%; padding: 0.75rem; color: white; border: 1px solid var(--glass-border); background: var(--glass-bg); padding-right: 3rem;">
+            <button type="button" onclick="togglePassword('password', this)"
+                style="position: absolute; left: 10px; bottom: 8px; background: none; border: none; color: var(--primary); cursor: pointer; font-size: 0.8rem; font-weight: 600;">عرض</button>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">تسجيل الدخول</button>
+    </form>
+    ليس لديك حساب؟ <a href="{% url 'exchange:signup' %}" style="color: var(--primary); text-decoration: none;">سجل
+        الآن</a>
+</div>
+{% endblock %}

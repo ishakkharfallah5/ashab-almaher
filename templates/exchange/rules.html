@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}قواعد المجتمع - الشاب الماهر{% endblock %}
+
+{% block content %}
+<section class="hero" style="margin-bottom: 4rem;">
+    <h1>قواعد <span style="color: var(--secondary);">المجتمع</span></h1>
+    <p>يرجى الالتزام بالقواعد التالية لضمان بيئة تعليمية آمنة ومفيدة للجميع.</p>
+</section>
+
+<div class="glass" style="max-width: 800px; margin: 0 auto; padding: 2.5rem;">
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+        <div style="border-right: 4px solid var(--primary); padding-right: 1.5rem;">
+            <h2 style="color: var(--primary); margin-bottom: 0.5rem;">1. الاحترام المتبادل</h2>
+            <p>يمنع منعاً باتاً أي شكل من أشكال التنمر، الإساءة اللفظية، أو التحرش. نحن مجتمع مبني على الاحترام.</p>
+            <p style="color: var(--warning); font-size: 0.9rem; margin-top: 0.5rem;"><strong>العقوبة:</strong> إيقاف
+                مؤقت وخصم 10 نقاط.</p>
+        </div>
+
+        <div style="border-right: 4px solid var(--secondary); padding-right: 1.5rem;">
+            <h2 style="color: var(--secondary); margin-bottom: 0.5rem;">2. المحتوى اللائق</h2>
+            <p>يمنع نشر محتوى غير لائق في فيديوهات القصص أو خلال المحادثات الخاصة.</p>
+            <p style="color: var(--warning); font-size: 0.9rem; margin-top: 0.5rem;"><strong>العقوبة:</strong> إيقاف
+                الحساب نهائياً وخصم 20 نقطة.</p>
+        </div>
+
+        <div style="border-right: 4px solid var(--primary); padding-right: 1.5rem;">
+            <h2 style="color: var(--primary); margin-bottom: 0.5rem;">3. الجدية والأمانة</h2>
+            <p>يجب الالتزام بالمواعيد في جلسات التبادل، ويمنع التلاعب بنظام النقاط من خلال طلبات وهمية.</p>
+            <p style="color: var(--warning); font-size: 0.9rem; margin-top: 0.5rem;"><strong>العقوبة:</strong> خصم 5
+                نقاط عن كل تلاعب.</p>
+        </div>
+    </div>
+
+    <div style="margin-top: 3rem; text-align: center; padding-top: 2rem; border-top: 1px solid var(--glass-border);">
+        <p style="color: var(--text-muted);">بموافقتك على استخدام المنصة، أنت تلتزم بهذه القواعد.</p>
+        <a href="{% url 'exchange:home' %}" class="btn btn-primary" style="margin-top: 1.5rem;">فهمت، العودة
+            للرئيسية</a>
+    </div>
+</div>
+{% endblock %}

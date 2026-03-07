@@ -1,0 +1,40 @@
+# Youth Skill Exchange Platform Task List
+
+- [x] Project Initialization & Setup
+    - [x] Initialize Django project and app
+    - [x] Setup base templates and Vanilla CSS architecture
+- [x] Authentication & User Profiles
+    - [x] Implement Django user models and authentication
+    - [x] Create profile management (list skills to teach/learn)
+- [x] Skill Exchange Logic
+    - [x] Implement point-based system (models and logic)
+    - [x] Create skill listings with levels and durations
+- [x] Matchmaking & Discovery
+- [x] Session Management & Trust
+- [x] Community & Communication
+    - [x] Integrate messaging system (Django models/views)
+    - [x] Build leaderboard
+    - [x] Video session integration (MVP/External link)
+    - [x] Implement Video Posts "Community Stories"
+        - [x] Create VideoPost model and migrations
+        - [x] Build video upload form
+        - [x] Design glassmorphism video feed
+- [x] Multi-language Support
+    - [x] Implement global translation switcher
+    - [x] Integrate automated translation service (Google Translate)
+- [x] Polish & Launch
+    - [x] Apply premium design aesthetics (Vanilla CSS)
+    - [x] Final verification and walkthrough
+    - [x] Fix `NoReverseMatch` error (Namespaced URLs)
+    - [x] Implement Password Visibility Toggle
+    - [x] Set Default Language to Arabic
+    - [x] Manually Localize UI to Arabic (Remove Google Translate)
+    - [x] Translate Brand Name "SkillSwap" to Arabic
+    - [x] Implement "Find Friends" (User Listing)
+    - [x] Translate Skill Database to Arabic
+    - [x] Remove Truncated Skill Descriptions from Home
+    - [x] Update point system (5 points per session)
+    - [x] Implement point escrow (Deduct at request, add at completion)
+    - [x] Add session refund/cancellation logic
+    - [x] Fix LOGIN_URL redirect error (404)
+    - [x] Correct Skill Level display in Profile/Details

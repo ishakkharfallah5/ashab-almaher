@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}استكشف المهارات - الشاب الماهر{% endblock %}
+
+{% block content %}
+<section class="hero" style="margin-bottom: 4rem;">
+    <h1>ماذا تريد أن <span style="color: var(--primary);">تتعلم</span> اليوم؟</h1>
+    <p>تصفح المهارات التي يقدمها أعضاء مجتمعنا.</p>
+
+    <form method="get" action="{% url 'exchange:skill_list' %}"
+        style="display: flex; max-width: 600px; margin: 2rem auto; gap: 1rem;">
+        <input type="text" name="q" placeholder="ابحث عن مهارات (مثل بايثون، تصميم)..." value="{{ query|default:'' }}"
+            class="glass"
+            style="flex: 1; padding: 1rem; color: white; border: 1px solid var(--glass-border); background: var(--glass-bg);">
+        <button type="submit" class="btn btn-primary">بحث</button>
+    </form>
+</section>
+
+<div class="card-grid">
+    {% for skill in skills %}
+    <div class="skill-card glass">
+        <h3 style="color: var(--primary); margin-bottom: 0.5rem;">{{ skill.name }}</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">{{ skill.description }}</p>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.8rem; color: var(--text-muted);">{{ skill.userskill_set.count }} عرض</span>
+            <a href="{% url 'exchange:skill_detail' skill.id %}" class="btn btn-primary"
+                style="padding: 0.5rem 1rem; font-size: 0.8rem;">عرض التفاصيل</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>لم يتم إضافة أي مهارات بعد.</p>
+    {% endfor %}
+</div>
+{% endblock %}

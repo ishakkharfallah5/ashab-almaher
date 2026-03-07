@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}دردشة مع {{ other_user.username }} - تبادل المهارات{% endblock %}
+
+{% block content %}
+<section style="margin-bottom: 2rem;">
+    <a href="{% url 'exchange:message_list' %}" style="color: var(--text-muted); text-decoration: none;">← العودة إلى
+        الرسائل</a>
+    <h1 style="margin-top: 1rem;">دردشة مع <span style="color: var(--primary);">{{ other_user.username }}</span></h1>
+</section>
+
+<style>
+    .chat-container {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        height: 600px;
+    }
+
+    .chat-message {
+        max-width: 70%;
+        padding: 1rem;
+        border-radius: 12px;
+        display: block !important;
+        width: fit-content !important;
+        flex-direction: column;
+    }
+
+    .msg-sender {
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        background: #6366f1 !important;
+        /* Indigo - Sent */
+        color: white !important;
+    }
+
+    .msg-receiver {
+        margin-right: auto !important;
+        margin-left: 0 !important;
+        background: #00bcd4 !important;
+        /* Cyan - Received */
+        color: white !important;
+    }
+
+    .msg-timestamp {
+        font-size: 0.7rem;
+        opacity: 0.7;
+        display: block;
+        margin-top: 0.5rem;
+    }
+
+    .text-left {
+        text-align: left;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+</style>
+
+<div class="glass chat-container">
+    <!-- Chat Messages -->
+    <div style="flex: 1; padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;"
+        id="chat-box">
+        {% for msg in chat_messages %}
+        <div class="chat-message {% if msg.sender_id == user.id %}msg-sender{% else %}msg-receiver{% endif %}">
+            <small style="display: block; font-size: 0.6rem; opacity: 0.7; margin-bottom: 0.25rem;">
+                {% if msg.sender_id == user.id %}أنا{% else %}{{ other_user.username }}{% endif %}
+            </small>
+            <p style="margin: 0;">{{ msg.content }}</p>
+            <span class="msg-timestamp" style="text-align: inherit;">
+                {{ msg.timestamp|date:"g:i a" }}
+                {% if msg.sender_id != user.id %}
+                <a href="{% url 'exchange:report_content' other_user.id %}"
+                    style="color: #ff5252; font-size: 0.6rem; text-decoration: none; margin-right: 0.5rem; float: left;">إبلاغ</a>
+                {% endif %}
+            </span>
+        </div>
+        {% empty %}
+        <p style="text-align: center; color: var(--text-muted); margin-top: 2rem;">لا توجد رسائل بعد. قل مرحباً!</p>
+        {% endfor %}
+    </div>
+
+    <!-- Message Input -->
+    <div style="padding: 1.5rem; border-top: 1px solid var(--glass-border);">
+        <form method="post" style="display: flex; gap: 1rem;">
+            {% csrf_token %}
+            <input type="text" name="content" placeholder="اكتب رسالتك هنا..." required class="glass"
+                style="flex: 1; padding: 0.75rem 1rem; color: white; border: 1px solid var(--glass-border); background: var(--glass-bg);">
+            <button type="submit" class="btn btn-primary">إرسال</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Scroll to bottom of chat
+    const chatBox = document.getElementById('chat-box');
+    chatBox.scrollTop = chatBox.scrollHeight;
+</script>
+{% endblock %}

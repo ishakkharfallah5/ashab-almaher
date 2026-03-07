@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}إبلاغ عن مخالفة - الشاب الماهر{% endblock %}
+
+{% block content %}
+<div class="glass" style="max-width: 500px; margin: 4rem auto; padding: 2.5rem;">
+    <h2 style="margin-bottom: 1.5rem; text-align: center; color: var(--warning);">إبلاغ عن مخالفة</h2>
+    <p style="text-align: center; margin-bottom: 2rem; color: var(--text-muted);">
+        أنت تقوم بالإبلاغ عن المستخدم: <strong>{{ reported_user.username }}</strong>
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem;">سبب الإبلاغ</label>
+            <select name="reason" class="glass" required
+                style="width: 100%; padding: 0.75rem; color: white; border: 1px solid var(--glass-border); background: var(--glass-bg);">
+                <option value="harassment">تحرش أو إساءة</option>
+                <option value="inappropriate">محتوى غير لائق</option>
+                <option value="spam">رسائل مزعجة</option>
+                <option value="other">آخر</option>
+            </select>
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+            <label style="display: block; margin-bottom: 0.5rem;">تفاصيل المخالفة (اختياري)</label>
+            <textarea name="description" class="glass"
+                style="width: 100%; padding: 0.75rem; color: white; border: 1px solid var(--glass-border); background: var(--glass-bg); min-height: 100px;"></textarea>
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary" style="flex: 1; background: var(--secondary);">إرسال الإبلاغ
+                والعقاب</button>
+            <a href="{% url 'exchange:home' %}" class="btn glass" style="flex: 1;">إلغاء</a>
+        </div>
+
+        <p style="margin-top: 1.5rem; font-size: 0.8rem; color: var(--warning); text-align: center;">
+            * تنبيه: سيتم خصم 10 نقاط فورياً من المستخدم المبلّغ عنه كعقوبة مبدئية.
+        </p>
+    </form>
+</div>
+{% endblock %}

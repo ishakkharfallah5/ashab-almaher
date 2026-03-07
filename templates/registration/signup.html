@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}إنشاء حساب - تبادل المهارات{% endblock %}
+
+{% block content %}
+<div class="glass" style="max-width: 400px; margin: 4rem auto; padding: 2.5rem;">
+    <h2 style="margin-bottom: 2rem; text-align: center;">انضم إلى مجتمعنا</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">إنشاء حساب</button>
+    </form>
+    <p style="margin-top: 1.5rem; text-align: center; color: var(--text-muted);">
+        هل لديك حساب بالفعل؟ <a href="{% url 'login' %}" style="color: var(--primary); text-decoration: none;">تسجيل
+            الدخول</a>
+    </p>
+</div>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordInputs = document.querySelectorAll('input[type="password"]');
+        passwordInputs.forEach((input, index) => {
+            const id = `signup_password_${index}`;
+            input.id = id;
+
+            // Wrap in relative container
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative';
+            input.parentNode.insertBefore(wrapper, input);
+            wrapper.appendChild(input);
+
+            // Add toggle button
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = 'عرض';
+            btn.style.cssText = 'position: absolute; left: 10px; top: 10px; background: none; border: none; color: var(--primary); cursor: pointer; font-size: 0.8rem; font-weight: 600;';
+            btn.onclick = function () {
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    btn.textContent = 'إخفاء';
+                } else {
+                    input.type = 'password';
+                    btn.textContent = 'عرض';
+                }
+            };
+            wrapper.appendChild(btn);
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

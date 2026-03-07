@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}الرسائل - تبادل المهارات{% endblock %}
+
+{% block content %}
+<section style="margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: center;">
+    <h1>رسائلي <span style="color: var(--primary);">الخاصة</span></h1>
+    <a href="{% url 'exchange:user_list' %}" class="btn btn-primary">أضف أصدقاء</a>
+</section>
+
+<div class="glass" style="max-width: 600px; margin: 0 auto; min-height: 400px;">
+    {% for contact in contacts %}
+    <a href="{% url 'exchange:chat' contact.id %}"
+        style="display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem; border-bottom: 1px solid var(--glass-border); text-decoration: none; color: inherit; transition: background 0.3s;">
+        <div
+            style="width: 50px; height: 50px; background: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800;">
+            {{ contact.username|slice:":1"|upper }}
+        </div>
+        <div style="flex: 1;">
+            <h3 style="margin: 0;">{{ contact.username }}</h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">انقر لفتح المحادثة</p>
+        </div>
+        <span style="color: var(--primary);">←</span>
+    </a>
+    {% empty %}
+    <div style="padding: 4rem; text-align: center; color: var(--text-muted);">
+        <p>لا توجد رسائل بعد. ابدأ محادثة مع شخص ما من ملفه الشخصي أو من طلب الجلسة!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

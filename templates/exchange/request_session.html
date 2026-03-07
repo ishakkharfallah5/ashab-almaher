@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}طلب جلسة - تبادل المهارات{% endblock %}
+
+{% block content %}
+<div class="glass" style="max-width: 500px; margin: 4rem auto; padding: 2.5rem;">
+    <h2 style="margin-bottom: 1rem;">حجز <span style="color: var(--primary);">جلسة</span></h2>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">
+        أنت تطلب جلسة لمدة ساعة واحدة مع <strong>{{ teacher.username }}</strong> لتعلم <strong>{{ skill.name
+            }}</strong>.
+    </p>
+
+    <div
+        style="background: var(--glass-bg); padding: 1rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid var(--glass-border);">
+        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">المكافأة: <span
+                style="color: var(--secondary); font-weight: 800;">2 نقاط</span></p>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">رصيدك الحالي: {{ user.points }} نقطة</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div style="margin-bottom: 2rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--text-muted);">التاريخ والوقت
+                المقترح</label>
+            <input type="datetime-local" name="date" required class="glass"
+                style="width: 100%; padding: 0.75rem; color: white; border: 1px solid var(--glass-border); background: var(--glass-bg);">
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary" style="flex: 1;">إرسال الطلب</button>
+            <a href="{% url 'exchange:skill_detail' skill.id %}" class="btn glass"
+                style="flex: 1; text-align: center;">إلغاء</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

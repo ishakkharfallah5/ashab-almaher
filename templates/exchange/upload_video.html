@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}رفع قصة - تبادل المهارات{% endblock %}
+
+{% block content %}
+<div class="glass" style="max-width: 600px; margin: 4rem auto; padding: 2.5rem;">
+    <h2 style="margin-bottom: 1rem; text-align: center;">شارك <span style="color: var(--primary);">عرضاً لمهارتك</span>
+    </h2>
+    <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">
+        قم برفع فيديو قصير (يوصى بنسبة عرض إلى ارتفاع 9:16) يستعرض خبرتك.
+    </p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">رفع الفيديو</button>
+    </form>
+
+    <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--glass-border); text-align: center;">
+        <a href="{% url 'exchange:video_feed' %}"
+            style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">←
+            العودة إلى القصص</a>
+    </div>
+</div>
+
+<style>
+    form p {
+        margin-bottom: 1.5rem;
+    }
+
+    form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock %}

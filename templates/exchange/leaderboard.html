@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}قائمة المتصدرين - الشاب الماهر{% endblock %}
+
+{% block content %}
+<section class="hero" style="margin-bottom: 4rem;">
+    <h1>قائمة <span style="color: var(--primary);">المتصدرين</span> في المجتمع</h1>
+    <p>نحتفي بأكثر مشاركي المعرفة نشاطاً لدينا.</p>
+</section>
+
+<div class="glass" style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+    <table style="width: 100%; border-collapse: collapse; text-align: right;">
+        <thead>
+            <tr style="border-bottom: 1px solid var(--glass-border); color: var(--text-muted);">
+                <th style="padding: 1rem;">الترتيب</th>
+                <th style="padding: 1rem;">المستخدم</th>
+                <th style="padding: 1rem; text-align: left;">النقاط</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for top_user in top_users %}
+            <tr style="border-bottom: 1px solid var(--glass-border);">
+                <td style="padding: 1.5rem 1rem;">
+                    {% if forloop.counter == 1 %}🥇{% endif %}
+                    {% if forloop.counter == 2 %}🥈{% endif %}
+                    {% if forloop.counter == 3 %}🥉{% endif %}
+                    {% if forloop.counter > 3 %}{{ forloop.counter }}{% endif %}
+                </td>
+                <td style="padding: 1.5rem 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div
+                            style="width: 32px; height: 32px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700;">
+                            {{ top_user.username|slice:":1"|upper }}
+                        </div>
+                        <span>{{ top_user.username }}</span>
+                    </div>
+                </td>
+                <td style="padding: 1.5rem 1rem; text-align: left; font-weight: 800; color: var(--primary);">
+                    {{ top_user.points }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

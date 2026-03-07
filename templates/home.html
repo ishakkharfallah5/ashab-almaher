@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero">
+    <h1>تعلم أي شيء. <br><span style="color: var(--primary);">علم كل شيء.</span></h1>
+    <p>تبادل مهاراتك مع شباب آخرين. لا توجد أموال، فقط نمو ومجتمع.</p>
+    <div style="display: flex; gap: 1rem; justify-content: center;">
+        <a href="{% url 'exchange:skill_list' %}" class="btn btn-primary">استكشف المهارات</a>
+        <a href="{% url 'exchange:signup' %}" class="btn glass" style="padding: 0.75rem 1.5rem;">كيف يعمل</a>
+    </div>
+</section>
+
+<section>
+    <h2 style="margin-bottom: 2rem;">مهارات مميزة</h2>
+    <div class="card-grid">
+        {% for skill in skills %}
+        <div class="skill-card glass">
+            <h3 style="color: var(--primary); margin-bottom: 0.5rem;">{{ skill.name }}</h3>
+            <a href="{% url 'exchange:skill_detail' skill.id %}"
+                style="color: var(--text-main); font-weight: 600; text-decoration: none;">عرض القوائم ←</a>
+        </div>
+        {% empty %}
+        <p>لا توجد مهارات مدرجة بعد. كن أول من يشارك!</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

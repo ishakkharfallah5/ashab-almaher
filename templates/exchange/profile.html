@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}ملفي الشخصي - تبادل المهارات{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+    <!-- Profile Info -->
+    <aside>
+        <div class="glass" style="padding: 2rem; text-align: center;">
+            <div
+                style="width: 100px; height: 100px; background: var(--primary); border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800;">
+                {{ user.username|slice:":1"|upper }}
+            </div>
+            <h2 style="margin-bottom: 0.5rem;">{{ user.username }}</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">النقاط: <span
+                    style="color: var(--primary); font-weight: 800;">{{ user.points }}</span></p>
+
+            <div style="display: flex; justify-content: space-around; margin-bottom: 2rem; font-size: 0.9rem;">
+                <div>
+                    <div style="font-weight: 800; color: var(--primary);">{{ user.followers.count }}</div>
+                    <div style="color: var(--text-muted);">متابع</div>
+                </div>
+                <div>
+                    <div style="font-weight: 800; color: var(--primary);">{{ user.following.count }}</div>
+                    <div style="color: var(--text-muted);">يتبع</div>
+                </div>
+            </div>
+
+            <div style="text-align: right;">
+                <h4 style="margin-bottom: 0.5rem;">السيرة الذاتية</h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">{{ user.bio|default:"لا توجد سيرة ذاتية بعد." }}
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Skills & Activity -->
+    <section>
+        <div class="glass" style="padding: 2rem; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 style="margin-bottom: 0;">مهارات أعلمها</h2>
+                <a href="{% url 'exchange:add_skill' %}" class="btn btn-primary"
+                    style="padding: 0.5rem 1rem; font-size: 0.8rem;">+ إضافة مهارة</a>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                {% for item in teaching %}
+                <div class="glass"
+                    style="padding: 1rem; display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <span
+                            style="font-size: 0.7rem; color: var(--primary); text-transform: uppercase; font-weight: 700;">المستوى:
+                            {{ item.get_level_display }}</span>
+                        <h4 style="margin: 0.25rem 0;">{{ item.skill.name }}</h4>
+                    </div>
+                    <a href="{% url 'exchange:delete_user_skill' item.id %}"
+                        style="color: var(--text-muted); text-decoration: none; font-size: 1.2rem; line-height: 1;"
+                        onclick="return confirm('هل أنت متأكد من حذف هذه المهارة؟')">×</a>
+                </div>
+                {% empty %}
+                <p style="color: var(--text-muted);">لم تدرج أي مهارات لتدريسها بعد.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="glass" style="padding: 2rem; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 style="margin-bottom: 0;">مهارات أريد تعلمها</h2>
+                <a href="{% url 'exchange:add_skill' %}" class="btn btn-primary"
+                    style="padding: 0.5rem 1rem; font-size: 0.8rem;">+ إضافة مهارة</a>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                {% for item in learning %}
+                <div class="glass"
+                    style="padding: 1rem; display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <span
+                            style="font-size: 0.7rem; color: var(--secondary); text-transform: uppercase; font-weight: 700;">المستوى:
+                            {{ item.get_level_display }}</span>
+                        <h4 style="margin: 0.25rem 0;">{{ item.skill.name }}</h4>
+                    </div>
+                    <a href="{% url 'exchange:delete_user_skill' item.id %}"
+                        style="color: var(--text-muted); text-decoration: none; font-size: 1.2rem; line-height: 1;"
+                        onclick="return confirm('هل أنت متأكد من حذف هذه المهارة؟')">×</a>
+                </div>
+                {% empty %}
+                <p style="color: var(--text-muted);">لم تدرج أي مهارات تريد تعلمها بعد.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <style>
+            .session-item {
+                padding: 1rem;
+                border-bottom: 1px solid var(--glass-border);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .session-points {
+                font-weight: 700;
+            }
+
+            .text-success {
+                color: var(--success);
+            }
+
+            .text-warning {
+                color: var(--warning);
+            }
+
+            .session-meta {
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                color: var(--text-muted);
+            }
+        </style>
+
+        <div class="glass" style="padding: 2rem;">
+            <h2 style="margin-bottom: 1.5rem;">الجلسات الأخيرة</h2>
+            {% for session in sessions %}
+            <div class="session-item">
+                <div>
+                    <h4 style="margin: 0;">{{ session.skill.name }}</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">
+                        {% if session.teacher == user %}
+                        تدريس {{ session.learner.username }}
+                        {% else %}
+                        تعلم من {{ session.teacher.username }}
+                        {% endif %}
+                        • {{ session.date|date:"M j, Y" }}
+                    </p>
+                </div>
+                <div style="text-align: left;">
+                    <span
+                        class="session-points {% if session.teacher == user %}text-success{% else %}text-warning{% endif %}">
+                        {% if session.teacher == user %}+{% else %}-{% endif %}{{ session.points_exchanged }}
+                    </span>
+                </div>
+            </div>
+            {% empty %}
+            <p style="color: var(--text-muted);">لا يوجد نشاط حديث مسجل.</p>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

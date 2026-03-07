@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Error - SkillSwap{% endblock %}
+
+{% block content %}
+<div class="glass"
+    style="max-width: 500px; margin: 4rem auto; padding: 2.5rem; text-align: center; border-color: var(--secondary);">
+    <h2 style="color: var(--secondary); margin-bottom: 1.5rem;">Oops! Something went wrong</h2>
+    <p style="margin-bottom: 2rem; color: var(--text-muted);">{{ message }}</p>
+    <a href="javascript:history.back()" class="btn btn-primary">Go Back</a>
+</div>
+{% endblock %}

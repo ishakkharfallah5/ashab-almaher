@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}البحث عن أصدقاء - تبادل المهارات{% endblock %}
+
+{% block content %}
+<section style="margin-bottom: 3rem;">
+    <h1>البحث عن <span style="color: var(--primary);">أصدقاء</span></h1>
+    <p>تواصل مع مستخدمين آخرين وابدأ محادثات جديدة.</p>
+</section>
+
+<div class="glass" style="max-width: 800px; margin: 0 auto; min-height: 400px; padding: 1rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;">
+        {% for site_user in users %}
+        <div class="glass"
+            style="padding: 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+            <div
+                style="width: 60px; height: 60px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; color: white;">
+                {{ site_user.username|slice:":1"|upper }}
+            </div>
+            <div style="flex: 1;">
+                <h3 style="margin: 0;">{{ site_user.username }}</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">{{ site_user.points }} نقطة</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%;">
+                <a href="{% url 'exchange:chat' site_user.id %}" class="btn glass"
+                    style="font-size: 0.8rem; padding: 0.5rem 1rem;">مراسلة</a>
+                <a href="{% url 'exchange:toggle_follow' site_user.id %}"
+                    class="btn {% if site_user in user.following.all %}glass{% else %}btn-primary{% endif %}"
+                    style="font-size: 0.8rem; padding: 0.5rem 1rem;">
+                    {% if site_user in user.following.all %}إلغاء المتابعة{% else %}متابعة{% endif %}
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div style="grid-column: 1 / -1; padding: 4rem; text-align: center; color: var(--text-muted);">
+            <p>لا يوجد مستخدمون آخرون حالياً.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div style="margin-top: 2rem; text-align: center;">
+    <a href="{% url 'exchange:message_list' %}" style="color: var(--text-muted); text-decoration: none;">← العودة إلى
+        الرسائل</a>
+</div>
+{% endblock %}
