@@ -28,8 +28,8 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-i-k+vhfse2_x2szk49n^^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
-CSRF_TRUSTED_ORIGINS = ['https://ashab-almaher.onrender.com']
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://ashab-almaher.onrender.com', 'http://127.0.0.1']
 
 
 # Application definition
