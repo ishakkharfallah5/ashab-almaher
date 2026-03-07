@@ -79,12 +79,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        ssl_require=False
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+import os
+print(f"DEBUG: Using database at {DATABASES['default']['NAME']}")
+print(f"DEBUG: File exists: {os.path.exists(DATABASES['default']['NAME'])}")
 
 
 # Password validation
